@@ -155,7 +155,6 @@ PRODUCT_PACKAGES += \
     hwcomposer.msm8953 \
     memtrack.msm8953 \
     libdisplayconfig \
-    libqdMetaData.system \
     libvulkan \
     libtinyxml
 
