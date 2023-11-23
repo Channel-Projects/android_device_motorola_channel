@@ -1,6 +1,9 @@
 # Audio
 use.voice.path.for.pcm.voip=false
 
+# Moto
+ro.mot.build.customerid=retail
+
 # Media
 media.stagefright.thumbnail.prefer_hw_codecs=true
 
