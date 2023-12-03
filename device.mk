@@ -22,7 +22,8 @@
 # definition file).
 #
 
-$(call inherit-product, vendor/motorola/sdm632-common/sdm632-common-vendor.mk)
+# Vendor blobs
+$(call inherit-product, vendor/motorola/channel/channel-vendor.mk)
 
 # Installs gsi keys into ramdisk, to boot a GSI with verified boot.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
@@ -30,16 +31,15 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
-# Properties
--include $(LOCAL_PATH)/properties.mk
-
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     $(LOCAL_PATH)/overlay-lineage
+PRODUCT_ENFORCE_RRO_TARGETS := *
 
-PRODUCT_ENFORCE_RRO_TARGETS := \
-    framework-res
+PRODUCT_PACKAGES += \
+    framework-res \
+    NoCutoutOverlay
 
 # A/B updater
 AB_OTA_POSTINSTALL_CONFIG += \
@@ -87,7 +87,13 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/bluetooth_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
-    frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml
+    frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml \
+    $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
+    $(LOCAL_PATH)/audio/audio_platform_info_tas2560.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_platform_info_tas2560.xml \
+    $(LOCAL_PATH)/audio/audio_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_platform_info.xml \
+    $(LOCAL_PATH)/audio/audio_ext_spkr.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_ext_spkr.conf \
+    $(LOCAL_PATH)/audio/mixer_paths_tas2560.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths_tas2560.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
@@ -106,6 +112,8 @@ PRODUCT_PACKAGES += \
 
 # Boot animation
 TARGET_BOOTANIMATION_HALF_RES := true
+TARGET_SCREEN_HEIGHT := 1512
+TARGET_SCREEN_WIDTH := 720
 
 # Boot control HAL
 PRODUCT_PACKAGES += \
@@ -122,6 +130,11 @@ PRODUCT_PACKAGES += \
     libbson.vendor \
     libxml2 \
     Snap
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/camera/camera_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/camera/camera_config.xml \
+    $(LOCAL_PATH)/configs/camera/mot_s5k3l6_chromatix.xml:$(TARGET_COPY_OUT_VENDOR)/etc/camera/mot_s5k3l6_chromatix.xml \
+    $(LOCAL_PATH)/configs/camera/s5k4h7_channel_chromatix.xml:$(TARGET_COPY_OUT_VENDOR)/etc/camera/s5k4h7_channel_chromatix.xml
 
 # Codec2 modules
 PRODUCT_PACKAGES += \
@@ -157,6 +170,10 @@ PRODUCT_PACKAGES += \
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.1
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/uinput-fpc.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-fpc.kl \
+    $(LOCAL_PATH)/idc/uinput-fpc.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput-fpc.idc
 
 # FM
 PRODUCT_PACKAGES += \
@@ -208,6 +225,11 @@ PRODUCT_PACKAGES += \
     ims-ext-common \
     ims_ext_common.xml
 
+# AAPT
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_PREBUILT_DPI := xhdpi hdpi
+
 # Init
 PRODUCT_PACKAGES += \
     init.class_main.sh \
@@ -225,7 +247,9 @@ PRODUCT_PACKAGES += \
     init.qcom.rc \
     init.target.rc \
     fstab.qcom \
-    ueventd.qcom.rc
+    ueventd.qcom.rc \
+    init.channel.rc
+#   init.audio.specified_para.sh
 
 # IPACM
 PRODUCT_PACKAGES += \
@@ -384,6 +408,10 @@ PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl:64 \
     android.hardware.sensors@1.0-service
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/sensor_def_qcomdev.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/sensor_def_qcomdev.conf \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+
 # Shims
 PRODUCT_PACKAGES += \
     libcutils_shim \
@@ -414,6 +442,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-impl:64 \
     android.hardware.thermal@1.0-service
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine-channel-NA_TMO.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-channel-NA_TMO.conf \
+    $(LOCAL_PATH)/configs/thermal-engine-channel.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-channel.conf
 
 # Touchscreen
 PRODUCT_PACKAGES += \
