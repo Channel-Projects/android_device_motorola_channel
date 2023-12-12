@@ -396,11 +396,11 @@ PRODUCT_PACKAGES += \
 
 # Radio
 PRODUCT_PACKAGES += \
-    android.hardware.radio@1.4.vendor \
+    android.hardware.radio@1.5.vendor \
     android.hardware.radio.config@1.2.vendor \
     android.hardware.radio.deprecated@1.0.vendor \
+    android.hardware.secure_element@1.2.vendor \
     android.system.net.netd@1.1.vendor \
-    android.hardware.secure_element@1.0.vendor:64 \
     librmnetctl \
     libprotobuf-cpp-full
 
@@ -462,11 +462,6 @@ PRODUCT_PACKAGES += \
     qti_telephony_hidl_wrapper.xml \
     qti-telephony-utils \
     qti_telephony_utils.xml \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
-
 
 # Thermal
 PRODUCT_PACKAGES += \
