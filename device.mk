@@ -97,6 +97,9 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml
+	
+# AudioFX
+TARGET_EXCLUDES_AUDIOFX := true	
 
 # Additional native libraries
 PRODUCT_COPY_FILES += \
